@@ -1,0 +1,7 @@
+.devcontainer
+.github
+.pytest_cache
+.vscode
+app.egg-info
+venv
+data
