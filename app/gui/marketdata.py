@@ -3,7 +3,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QLabel, QWidget, QTableView, QMainWindow, QVBoxLayout, QHBoxLayout, QComboBox
 from PyQt5.QtCore import Qt, QAbstractTableModel
 
-from app.database import mongodb
+from app.database import mongo_manager
 import pandas as pd
 
 
@@ -42,7 +42,7 @@ class MainWindow(QMainWindow):
         self.combobox = QComboBox()
         self.table = QTableView()
 
-        collection_names = mongodb.get_all_market_data_collections()
+        collection_names = mongo_manager.get_all_market_data_collections()
 
         self.comboBoxUI(collection_names)
         self.tableUI(collection_names[0])
@@ -68,7 +68,7 @@ class MainWindow(QMainWindow):
 
     def tableUI(self, collection_name: str):
         
-        res = mongodb.get_all(collection_name)
+        res = mongo_manager.get_all(collection_name)
         tmp = list(res)
 
         df = pd.DataFrame(tmp, columns=["_id", "Date", "Bid", "Ask", "Opening price", "High price", "Low price", "Closing price", "Average price", "Total volume", "Turnover", "Trades"])

@@ -1,6 +1,6 @@
 # import app.app as app
 from app.import_csv import import_csv
-from app.database import mongodb
+from app.database import mongo_manager
 from pathlib import Path
 import os
 
@@ -38,24 +38,24 @@ def test_all_market_data_collections():
 
 def test_get_one():
     col_name = '8TRA-2019-06-28-2024-04-30.csv'
-    res = mongodb.get_one(col_name)
+    res = mongo_manager.get_one(col_name)
     print("test_get: " + str(res))
     assert res["_id"] != ""
 
 def test_get_all():
     col_name = '8TRA-2019-06-28-2024-04-30.csv'
-    res = mongodb.get_all(col_name)
+    res = mongo_manager.get_all(col_name)
     print("test_get: " + str(res))
     assert res is not None        
 
 def test_get_all_market_data_collections():
-    collection_names = mongodb.get_all_market_data_collections()
+    collection_names = mongo_manager.get_all_market_data_collections()
     for c in collection_names:
         print(c)
     assert len(collection_names) == 41
 
 def test_get_all_tbl_collections():
-    collection_names = mongodb.get_all_tbl_collections()
+    collection_names = mongo_manager.get_all_tbl_collections()
     for c in collection_names:
         print(c)
     assert len(collection_names) == 2

@@ -8,14 +8,16 @@ import numpy as np
 def dataframe():
     file = "~/data/marketdata/data/ABB-1999-06-22-2024-04-30.csv"
     df = pd.read_csv(file)
+    df = df.drop("Unnamed: 11", axis=1)
+    df = df.convert_dtypes()
+    df['Date'] = pd.to_datetime(df['Date'])
+    df = df.set_index('Date')
     return df
 
 # @pytest.mark.usefixtures("df")
 def test_load(dataframe):
-    
-    df = dataframe.drop("Unnamed: 11", axis=1)
-    df = df.convert_dtypes()
-    df['Date'] = pd.to_datetime(df['Date'])
+    df = dataframe
+
     print(df.dtypes)
     
 
@@ -28,8 +30,7 @@ def test_load(dataframe):
     assert df['Average price'].hasnans == False
 
     # set opening price
-    df['Opening price'] = df['Opening price'].fillna(0)
-    df['Opening price'].loc[df['Opening price'] == 0] = df['Average price']
+    df['Opening price'] = df['Opening price'].fillna(df['Average price'])
     
     assert df['Opening price'].hasnans == False
 

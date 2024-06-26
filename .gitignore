@@ -6,3 +6,4 @@ app.egg-info
 venv
 data
 dist
+.env
